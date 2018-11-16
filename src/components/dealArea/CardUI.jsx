@@ -1,6 +1,6 @@
 import React from 'react'
 
-import urlRoutes from '../urlRoutes'
+import urlRoutes from '../../urlRoutes'
 
 import './CardUI.css'
 

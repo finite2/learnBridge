@@ -1,6 +1,6 @@
 import React from 'react'
 
-import HandLayout from './HandLayout'
+import HandLayout from './dealArea/HandLayout'
 
 import dealRandomHand from '../utils/dealRandomHand'
 
@@ -19,10 +19,8 @@ class HandManager extends React.Component {
     const {deal} = this.state
 
     return <HandLayout
-      north={deal.north}
-      east={deal.east}
-      south={deal.south}
-      west={deal.west}
+      seat={2}
+      deal={deal}
       />
 
 
