@@ -4,7 +4,7 @@ import HandUI from './HandUI'
 
 const HandLayout = (props) => {
 
-  const {height, width, deal, seat} = props
+  const {height, width, deal, seat, playerNames} = props
 
   const gutter = 20
   const cardHeight = Math.min(props.height / 4, 200)
@@ -13,6 +13,7 @@ const HandLayout = (props) => {
   const handWidth = cardOverlap*12 + cardWidth
 
   const seats = ['N','E','S','W']
+  const seatIndex = seats.findIndex(s => s === seat)
 
   const handPosition = [
     {x: width/2 - handWidth/2, y: gutter},
@@ -21,12 +22,9 @@ const HandLayout = (props) => {
     {x: gutter, y: height/2 - cardHeight/2}
   ]
 
-  console.log(handPosition);
-
   const hands = [...Array(4)].map((x,i) => {
-    const index = (seat + 2 + i) % 4
-    return <HandUI key={seats[index]} seat={seats[index]} cards={deal[index]} handPosition={handPosition[index]}
-      cardWidth={cardWidth} cardOverlap={cardOverlap} cardHeight={cardHeight} />
+    const index = (seatIndex + 2 + i) % 4
+    return <HandUI key={seats[index]} seat={seats[index]} cards={deal[index]} handPosition={handPosition[index]} playerName={playerNames[index]} cardWidth={cardWidth} cardOverlap={cardOverlap} cardHeight={cardHeight} />
   })
 
   return <svg style={{width: props.width, height: props.height}}>
@@ -36,7 +34,7 @@ const HandLayout = (props) => {
 
 
 HandLayout.defaultProps = {
-  width: 1200,
+  width: 1300,
   height: 900,
   north: [],
   east: [],

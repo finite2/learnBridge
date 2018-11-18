@@ -3,18 +3,22 @@ import React from 'react'
 import CardUI from './CardUI'
 import Card from '../../classes/card'
 
+import getSuits from '../../utils/getSuits'
+
 import './HandUI.css'
 
 const HandUI = (props) => {
 
-  const {seat, playerName, handPosition, cardHeight, cardWidth, cardOverlap} = props
+  const {seat, cards, playerName, handPosition, cardHeight, cardWidth, cardOverlap} = props
   const bannerHeight = cardHeight/4
   const handWidth = cardOverlap*12 + cardWidth
 
-  const cards = props.cards.map((c,i) => <CardUI key={i} idx={i}  cardHeight={cardHeight} cardOverlap={cardOverlap} card={c} visible={true} onCardClick={props.onCardClick}/>)
+  const cardsUI = cards.map((c,i) => <CardUI key={i} idx={i}  cardHeight={cardHeight} cardOverlap={cardOverlap} card={c} visible={true} onCardClick={props.onCardClick}/>)
+
+  console.log(getSuits(cards));
 
   return <g className="hand" transform={`translate(${handPosition.x},${handPosition.y})`}>
-    {cards}
+    {cardsUI}
     <g transform={`translate(0,${cardHeight*3/4})`}>
       <rect width={handWidth} height={bannerHeight}/>
       <rect fill='green' x={bannerHeight/8} y={bannerHeight/8} width={bannerHeight*3/4} height={bannerHeight*3/4}/>
