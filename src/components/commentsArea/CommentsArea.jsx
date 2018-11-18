@@ -7,16 +7,16 @@ import CommentsContext from '../../context/CommentsContext'
 import './CommentsArea.scss'
 
 const CommentsArea = (props) => {
-  const context = useContext(CommentsContext)
+  const comment = useContext(CommentsContext)
 
 
 
 
-  const commentUI = context.comments.map((comment, i) => <Comment key={i} {...comment}/>)
+  const commentUI = comment.comments.map((comment, i) => <Comment key={i} {...comment}/>)
 
   return <div className="comment-box">
     {commentUI}
-    <button onClick={() => context.addComment({comment: 'This is a great test comment'})}>Add comment</button>
+    <button onClick={() => comment.addComment({comment: 'This is a great test !c!d!h!s 2!c', className: 'left'})}>Add comment</button>
   </div>
 
 }

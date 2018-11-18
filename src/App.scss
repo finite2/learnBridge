@@ -1,12 +1,16 @@
 .App {
   text-align: center;
   display: flex;
+  width: 100vw;
+  height: 100vh;
 
   .left {
     border: 5px solid red;
+    width: 70%;
   }
 
   .right {
-
+    border: 5px solid blue;
+    width: 30%;
   }
 }

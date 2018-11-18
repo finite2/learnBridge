@@ -1,0 +1,28 @@
+.comment-holder {
+  display: block;
+  width: 100%;
+  clear: both;
+}
+
+.comment {
+  width: 80%;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 5px;
+  margin: 5px;
+  text-align: left;
+
+  &.comment-left {
+    float: left;
+  }
+  &.comment-right {
+    float: right;
+  }
+
+  &.comment-action {
+    float: right;
+    background-color: #ffff33;
+    text-align: right;
+    width: 10%;
+  }
+}
