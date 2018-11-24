@@ -14,6 +14,11 @@ class Card {
     return urlRoutes.cards + value + this.suit + '.png'
   }
 
+  toString() {
+    const value = ["0","0","2","3","4","5","6","7","8","9","T","J","Q","K","A"][this.value]
+    return value + this.suit
+  }
+
   rawValue() {
     if(this.value > 10) {
       return this.value - 10
@@ -27,6 +32,12 @@ class Card {
     return new Card(value, suit)
   }
 
+  static fromString(card) {
+    card = card.toLowerCase()
+    const suit = ['s', 'h', 'c', 'd'].find(s => s === card.substring(1,2))
+    const value = ["2","3","4","5","6","7","8","9","t","j","q","k","a"].findIndex(v => v === card.substring(0,1)) + 2
+    return new Card(value,suit)
+  }
 }
 
 export default Card

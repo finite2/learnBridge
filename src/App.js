@@ -4,7 +4,7 @@ import CommentsContext from './context/CommentsContext'
 
 import './App.scss';
 
-import HandManager from './components/HandManager'
+import GetHand from './components/GetHand'
 import CommentsArea from './components/commentsArea/CommentsArea'
 
 const App = (props) => {
@@ -12,7 +12,7 @@ const App = (props) => {
   const [comments, setComments] = useState([])
   const addComment = (comment) => setComments(comments.concat(comment))
 
-
+  // handtutorial
   return (
     <CommentsContext.Provider value={{
         comments: comments,
@@ -20,7 +20,7 @@ const App = (props) => {
     }}>
     <div className="App">
       <div className='left'>
-        <HandManager/>
+        <GetHand playerNames={['Parner', "Opponent", "You", "Opponent"]} target={'/static/Deals/templating/handtoplay.json'}/>
       </div>
       <div className='right'>
         <CommentsArea/>

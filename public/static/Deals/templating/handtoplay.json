@@ -1,0 +1,13 @@
+{
+  "type": "toPlay",
+  "handNumber": 1,
+  "hands": [
+    ["Qs","Ts","9s","Th","7h","6h","4h","3h","4c","2c","Qd","6d","5d"],
+    ["Js","4s","Ah","Qh","2h","Jc","7c","3c","Ad","Kd","Jd","Td","3d"],
+    ["As","7s","6s","3s","9h","8h","5h","Kc","Tc","8c","6c","7d","2d"],
+    ["Ks","8s","5s","2s","Kh","Jh","Ac","Qc","9c","5c","9d","8d","4d"]
+  ],
+  "dealer": "S",
+  "nsvulnerable": "true",
+  "ewvulnerable": "true"
+}

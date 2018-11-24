@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import HandLayout from './dealArea/HandLayout'
 
@@ -8,20 +9,24 @@ const seats = ["N","E","S","W"]
 
 class HandManager extends React.Component {
 
+  static propTypes = {
+    target: PropTypes.string,
+  }
+
   constructor(props) {
     super(props)
-    const deal = dealRandomHand()
-    var handState = Object.assign({}, deal)
-    console.log(handState);
+
+    console.log(props);
+    const currentState = Object.assign({}, props.hands)
 
     this.state = {
-      deal: deal,
-      currentState: handState,
+      deal: props.hands,
+      currentState: currentState,
       auction: [],
       yourSeat: "S",
       contract: "2s",
       declarer: "W",
-      playerNames: ['Parner', "Opponent", "You", "Opponent"],
+      playerNames: props.playerNames,
       trick: [undefined, undefined, undefined, undefined],
     }
   }

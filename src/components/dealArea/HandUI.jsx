@@ -1,7 +1,7 @@
 import React from 'react'
 
 import CardUI from './CardUI'
-import Card from '../../classes/card'
+import Card from '../../classes/Card'
 
 import getSuits from '../../utils/getSuits'
 
