@@ -13,9 +13,9 @@ const HandUI = (props) => {
   const bannerHeight = cardHeight/4
   const handWidth = cardOverlap*12 + cardWidth
 
-  const cardsUI = cards.map((c,i) => <CardUI key={i} idx={i}  cardHeight={cardHeight} cardOverlap={cardOverlap} card={c} visible={true} onCardClick={props.onCardClick}/>)
+  const cardsUI = cards.map((c,i) => <CardUI key={i} idx={i} seat={seat} cardHeight={cardHeight} cardOverlap={cardOverlap} card={c} visible={true}/>)
 
-  console.log(getSuits(cards));
+  // console.log(getSuits(cards));
 
   return <g className="hand" transform={`translate(${handPosition.x},${handPosition.y})`}>
     {cardsUI}

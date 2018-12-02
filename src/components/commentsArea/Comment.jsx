@@ -8,13 +8,12 @@ import './Comment.scss'
 const Comment = (props) => {
 
   const {comment, className} = props
-  console.log(comment);
   var commentArray = formatComment(comment)
 
   return (
     <div className="comment-holder">
       <div className={"comment comment-" + className}>
-        {commentArray.map((c,i) => <span key="i">{c}</span>)}
+        {commentArray.map((c,i) => <span key={i}>{c}</span>)}
       </div>
     </div>
   )

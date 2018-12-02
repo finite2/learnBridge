@@ -1,19 +1,21 @@
 import React, {useContext} from 'react'
 
 import urlRoutes from '../../urlRoutes'
-import CommentsContext from '../../context/CommentsContext'
+import HandContext from '../../context/HandContext'
 
 import './CardUI.css'
 
 
 const CardUI = (props) => {
-  const comment = useContext(CommentsContext)
+  const handContext = useContext(HandContext)
+
+  const {seat, card} = props
 
   const x = props.idx * props.cardOverlap
   const style = {height: props.cardHeight}
 
   if(props.visible) {
-    return <image href={props.card.url()} onClick={() => props.onCardClick(props.card)} style={style} x={x} onClick={() => comment.addComment({comment: props.card.value + "!" + props.card.suit, className: "action"})}/>
+    return <image href={card.url()} style={style} x={x} onClick={() => handContext.onCardClick(card, seat)}/>
   } else {
     return <image style={style} src={urlRoutes.cards + 'cardback.png'}/>
   }

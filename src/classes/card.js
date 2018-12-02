@@ -19,6 +19,11 @@ class Card {
     return value + this.suit
   }
 
+  toPrettyString() {
+    const value = ["0","0","2","3","4","5","6","7","8","9","T","J","Q","K","A"][this.value]
+    return value + "!" + this.suit
+  }
+
   rawValue() {
     if(this.value > 10) {
       return this.value - 10
