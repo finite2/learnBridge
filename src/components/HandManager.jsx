@@ -35,6 +35,8 @@ class HandManager extends React.Component {
       playerAction: "card",
       activePlayer: 2,
       trickLeader: 2,
+      currentTrick: {leader: 2, cards: []},
+      lastTrick: {leader: 2, cards: []},
       currentState: currentState,
       tricksWonDeclarer: 0,
       cardsPlayed: [],
@@ -89,11 +91,12 @@ class HandManager extends React.Component {
   }
 
   playCard(card, hand) {
-    var {declarer, trumps, activePlayer, trickLeader, currentState, tricksWonDeclarer, cardsPlayed} = this.state
+    var {declarer, trumps, activePlayer, trickLeader, currentTrick, lastTrick, currentState, tricksWonDeclarer, cardsPlayed} = this.state
 
     const index = currentState[hand].findIndex(c => c.toString() === card.toString())
     currentState[hand].splice(index, 1)
     cardsPlayed.push(card)
+    currentTrick = currentTrickPlayed(cardsPlayed, trickLeader)
 
     if(cardsPlayed.length % 4 === 0) {
       const trickWinner = (checkWinner(trumps, cardsPlayed[cardsPlayed.length-4].suit, cardsPlayed.slice(cardsPlayed.length - 4)) + trickLeader) % 4
@@ -101,6 +104,7 @@ class HandManager extends React.Component {
         tricksWonDeclarer ++
       }
       activePlayer = trickWinner
+      lastTrick = currentTrick
       trickLeader = trickWinner
     } else {
       activePlayer = (activePlayer + 1) % 4
@@ -112,6 +116,8 @@ class HandManager extends React.Component {
     this.setState({
       activePlayer: activePlayer,
       trickLeader: trickLeader,
+      currentTrick: currentTrick,
+      lastTrick: lastTrick,
       currentState: currentState,
       tricksWonDeclarer: tricksWonDeclarer,
       cardsPlayed: cardsPlayed
@@ -120,7 +126,8 @@ class HandManager extends React.Component {
 
   render() {
 
-    const { playerNames, yourSeat, currentState, activePlayer} = this.state
+    const { playerNames, yourSeat, currentState, activePlayer, currentTrick, lastTrick} = this.state
+
 
     return <HandContext.Provider value={{
         onBid: this.onBid,
@@ -131,6 +138,7 @@ class HandManager extends React.Component {
         deal={currentState}
         playerNames={playerNames}
         activePlayer={activePlayer}
+        currentTrick={currentTrick}
         />
     </HandContext.Provider>
 
@@ -168,6 +176,12 @@ const checkTrumpWinner = (trump, suit, trick) => {
     }
   }
 
+}
+
+const currentTrickPlayed = (cardsPlayed, leader) => {
+  const index = Math.floor((cardsPlayed.length-1)/4)
+  const trick = cardsPlayed.slice(index*4)
+  return {leader: leader, cards: trick}
 }
 
 export default HandManager

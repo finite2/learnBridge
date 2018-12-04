@@ -1,10 +1,11 @@
 import React from 'react'
 
 import HandUI from './HandUI'
+import TrickUI from './TrickUI'
 
 const HandLayout = (props) => {
 
-  const {height, width, deal, seat, playerNames, activePlayer} = props
+  const {height, width, deal, seat, playerNames, activePlayer, currentTrick} = props
 
   const gutter = 20
   const cardHeight = Math.min(props.height / 4, 200)
@@ -29,6 +30,7 @@ const HandLayout = (props) => {
 
   return <svg style={{width: props.width, height: props.height}}>
     {hands}
+    <TrickUI trick={currentTrick} position={{x: width/2, y: height/2}} cardHeight={cardHeight} cardWidth={cardWidth}/>
   </svg>
 }
 
