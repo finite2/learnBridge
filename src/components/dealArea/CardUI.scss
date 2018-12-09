@@ -1,0 +1,19 @@
+.card {
+  position: absolute;
+
+  &__rect {
+    fill: white;
+    stroke: black;
+    stroke-width: 1px;
+    rx: 7px;
+    ry: 7px;
+  }
+
+  &__value {
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+}
+
+.card img {
+}

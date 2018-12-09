@@ -1,14 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react"
+import PropTypes from "prop-types"
 
-import HandLayout from './dealArea/HandLayout'
+import HandLayout from "./dealArea/HandLayout"
 
-import dealRandomHand from '../utils/dealRandomHand'
+import dealRandomHand from "../utils/dealRandomHand"
 
-import HandContext from '../context/HandContext'
-import CommentsContext from '../context/CommentsContext'
+import HandContext from "../context/HandContext"
+import CommentsContext from "../context/CommentsContext"
 
-const seats = ["N","E","S","W"]
+const seats = ["N", "E", "S", "W"]
 
 class HandManager extends React.Component {
   static contextType = CommentsContext
@@ -20,8 +20,12 @@ class HandManager extends React.Component {
   constructor(props) {
     super(props)
 
-    console.log(props);
-    const currentState = Object.assign({}, props.hands)
+    console.log(props)
+    var currentState = Object.assign({}, props.hands)
+
+    currentState[0] = setHandVisibility(currentState[0], false)
+    currentState[1] = setHandVisibility(currentState[1], false)
+    currentState[3] = setHandVisibility(currentState[3], false)
 
     this.state = {
       deal: props.hands,
@@ -49,30 +53,32 @@ class HandManager extends React.Component {
   }
 
   onBid(bid, hand) {
-    if(this.isTurn(hand) && this.state.playerAction === "bid") {
-
+    if (this.isTurn(hand) && this.state.playerAction === "bid") {
     }
     console.log(bid, hand)
   }
 
   isTurn(hand) {
-    return this.state.activePlayer === hand || (this.state.declarer === hand && this.state.activePlayer === this.state.declarer + 2 % 4)
+    return (
+      this.state.activePlayer === hand ||
+      (this.state.declarer === hand && this.state.activePlayer === this.state.declarer + (2 % 4))
+    )
   }
 
   isLegalCard(card, hand) {
-    if(this.state.cardsPlayed.length % 4 === 0) {
+    if (this.state.cardsPlayed.length % 4 === 0) {
       return true
     }
-    const index = 4*Math.floor(this.state.cardsPlayed.length /4)
-    console.log("index", index);
+    const index = 4 * Math.floor(this.state.cardsPlayed.length / 4)
+    console.log("index", index)
     const suit = this.state.cardsPlayed[index].suit
-    if(card.suit === suit) {
+    if (card.suit === suit) {
       return true
     }
 
     const playerHand = currentState[hand]
     for (var i = 0; i < playerHand.length; i++) {
-      if(playerHand[i].suit === suit) {
+      if (playerHand[i].suit === suit) {
         return false
       }
     }
@@ -80,28 +86,41 @@ class HandManager extends React.Component {
   }
 
   onCardClick(card, hand) {
-    console.log(this.state.cardsPlayed);
-    console.log(hand);
-    if(this.state.playerAction === "card" && this.isTurn(hand) &&  this.isLegalCard(card, hand)) {
+    console.log(this.state.cardsPlayed)
+    console.log(hand)
+    if (this.state.playerAction === "card" && this.isTurn(hand) && this.isLegalCard(card, hand)) {
       this.playCard(card, hand)
-
     }
     this.context.addComment({comment: card.toPrettyString(), className: "action"})
     console.log(card.toString(), hand)
   }
 
   playCard(card, hand) {
-    var {declarer, trumps, activePlayer, trickLeader, currentTrick, lastTrick, currentState, tricksWonDeclarer, cardsPlayed} = this.state
+    var {
+      declarer,
+      trumps,
+      activePlayer,
+      trickLeader,
+      currentTrick,
+      lastTrick,
+      currentState,
+      tricksWonDeclarer,
+      cardsPlayed,
+    } = this.state
 
     const index = currentState[hand].findIndex(c => c.toString() === card.toString())
     currentState[hand].splice(index, 1)
+    card.visible = true
     cardsPlayed.push(card)
     currentTrick = currentTrickPlayed(cardsPlayed, trickLeader)
 
-    if(cardsPlayed.length % 4 === 0) {
-      const trickWinner = (checkWinner(trumps, cardsPlayed[cardsPlayed.length-4].suit, cardsPlayed.slice(cardsPlayed.length - 4)) + trickLeader) % 4
-      if(trickWinner === declarer || (trickWinner + 2 % 4) === declarer) {
-        tricksWonDeclarer ++
+    if (cardsPlayed.length % 4 === 0) {
+      const trickWinner =
+        (checkWinner(trumps, cardsPlayed[cardsPlayed.length - 4].suit, cardsPlayed.slice(cardsPlayed.length - 4)) +
+          trickLeader) %
+        4
+      if (trickWinner === declarer || trickWinner + (2 % 4) === declarer) {
+        tricksWonDeclarer++
       }
       activePlayer = trickWinner
       lastTrick = currentTrick
@@ -109,7 +128,7 @@ class HandManager extends React.Component {
     } else {
       activePlayer = (activePlayer + 1) % 4
     }
-    if(cardsPlayed.length === 52) {
+    if (cardsPlayed.length === 52) {
       // hand end make extra actions.
     }
 
@@ -120,34 +139,33 @@ class HandManager extends React.Component {
       lastTrick: lastTrick,
       currentState: currentState,
       tricksWonDeclarer: tricksWonDeclarer,
-      cardsPlayed: cardsPlayed
+      cardsPlayed: cardsPlayed,
     })
   }
 
   render() {
+    const {playerNames, yourSeat, currentState, activePlayer, currentTrick, lastTrick} = this.state
 
-    const { playerNames, yourSeat, currentState, activePlayer, currentTrick, lastTrick} = this.state
-
-
-    return <HandContext.Provider value={{
-        onBid: this.onBid,
-        onCardClick: this.onCardClick,
-    }}>
-      <HandLayout
-        seat={yourSeat}
-        deal={currentState}
-        playerNames={playerNames}
-        activePlayer={activePlayer}
-        currentTrick={currentTrick}
+    return (
+      <HandContext.Provider
+        value={{
+          onBid: this.onBid,
+          onCardClick: this.onCardClick,
+        }}>
+        <HandLayout
+          seat={yourSeat}
+          deal={currentState}
+          playerNames={playerNames}
+          activePlayer={activePlayer}
+          currentTrick={currentTrick}
         />
-    </HandContext.Provider>
-
-
+      </HandContext.Provider>
+    )
   }
 }
 
 const checkWinner = (trump, suit, trick) => {
-  if(trump === "nt") {
+  if (trump === "nt") {
     return checkNTWinner(suit, trick)
   } else {
     return checkTrumpWinner(trump, suit, trick)
@@ -157,7 +175,7 @@ const checkWinner = (trump, suit, trick) => {
 const checkNTWinner = (suit, trick) => {
   var maxValid = -1
   for (var i = 0; i < trick.length; i++) {
-    if(trick[i].suit === suit && trick[i].value > maxValid) {
+    if (trick[i].suit === suit && trick[i].value > maxValid) {
       maxValid = trick[i].value
     }
   }
@@ -165,22 +183,26 @@ const checkNTWinner = (suit, trick) => {
 }
 
 const checkTrumpWinner = (trump, suit, trick) => {
-  if(trump === suit) {
+  if (trump === suit) {
     return checkNTWinner(trump, trick)
   } else {
     var trumpWinner = checkNTWinner(trump, trick)
-    if(trumpWinner >= 0) {
+    if (trumpWinner >= 0) {
       return trumpWinner
     } else {
       return checkNTWinner(suit, trick)
     }
   }
+}
 
+const setHandVisibility = (hand, visible) => {
+  hand = hand.map(c => (c.visible = visible))
+  return hand
 }
 
 const currentTrickPlayed = (cardsPlayed, leader) => {
-  const index = Math.floor((cardsPlayed.length-1)/4)
-  const trick = cardsPlayed.slice(index*4)
+  const index = Math.floor((cardsPlayed.length - 1) / 4)
+  const trick = cardsPlayed.slice(index * 4)
   return {leader: leader, cards: trick}
 }
 
