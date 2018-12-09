@@ -52,13 +52,13 @@ const formatComment = comment => {
 const specialStringToComponent = (special, height = 12) => {
   special = special.toLowerCase()
   if (special === "!c") {
-    return <Suits.Club height={height} />
+    return <Suits.Suit suit={"c"} height={height} />
   } else if (special === "!d") {
-    return <Suits.Diamond height={height} />
+    return <Suits.Suit suit={"d"} height={height} />
   } else if (special === "!h") {
-    return <Suits.Heart height={height} />
+    return <Suits.Suit suit={"h"} height={height} />
   } else if (special === "!s") {
-    return <Suits.Spade height={height} />
+    return <Suits.Suit suit={"s"} height={height} />
   } else {
     return "!"
   }

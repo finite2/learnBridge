@@ -1,5 +1,7 @@
 import urlRoutes from "../urlRoutes"
 
+const stringValues = ["0", "0", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"]
+
 class Card {
   constructor(value, suit, visible = true) {
     this.suit = suit
@@ -13,12 +15,11 @@ class Card {
   }
 
   faceValue() {
-    return [0, 0, 2, 3, 4, 5, 6, 7, 8, 9, "t", "j", "q", "k", "a"][this.value]
+    return stringValues[this.value]
   }
 
   toString() {
-    const value = ["0", "0", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"][this.value]
-    return value + this.suit
+    return stringValues[this.value] + this.suit
   }
 
   toPrettyString() {
