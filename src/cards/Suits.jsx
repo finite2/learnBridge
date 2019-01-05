@@ -2,7 +2,7 @@ import React from "react"
 
 const Spade = props => {
   return (
-    <svg height={props.height} viewBox="0 0 104 114">
+    <svg x={props.x} y={props.y} height={props.height} viewBox="0 0 104 114">
       <path
         id="heart"
         style={{fill: props.color}}
@@ -14,7 +14,7 @@ const Spade = props => {
 
 const Heart = props => {
   return (
-    <svg height={props.height} viewBox="0 0 101 102">
+    <svg x={props.x} y={props.y} height={props.height} viewBox="0 0 101 102">
       <path
         id="heart"
         style={{fill: props.color}}
@@ -26,7 +26,7 @@ const Heart = props => {
 
 const Diamond = props => {
   return (
-    <svg height={props.height} viewBox="0 0 106 125">
+    <svg x={props.x} y={props.y} height={props.height} viewBox="0 0 106 125">
       <path
         id="diamond"
         style={{fill: props.color}}
@@ -38,7 +38,7 @@ const Diamond = props => {
 
 const Club = props => {
   return (
-    <svg height={props.height} viewBox="0 0 106 112">
+    <svg x={props.x} y={props.y} height={props.height} viewBox="0 0 106 112">
       <path
         id="club"
         style={{fill: props.color}}
@@ -63,4 +63,38 @@ const Suit = props => {
   }
 }
 
-export default {Suit, Spade, Heart, Diamond, Club}
+const FormatBid = props => {
+  const SetSuit = suit => (
+    <React.Fragment>
+      <text textAnchor="end" alignmentBaseline="middle">
+        {props.bid[0]}
+      </text>
+      <Suit x={-643} y={-8} suit={props.bid[1].toLowerCase()} height={props.height} />
+    </React.Fragment>
+  )
+  console.log(props.bid)
+  if (props.bid === "PASS") {
+    return (
+      <text textAnchor="middle" alignmentBaseline="middle">
+        {props.bid}
+      </text>
+    )
+  }
+  if (props.bid.includes("C")) {
+    return SetSuit("c")
+  } else if (props.bid.includes("D")) {
+    return SetSuit("d")
+  } else if (props.bid.includes("H")) {
+    return SetSuit("h")
+  } else if (props.bid.includes("S")) {
+    return SetSuit("s")
+  } else {
+    return (
+      <text textAnchor="middle" alignmentBaseline="middle">
+        {props.bid}
+      </text>
+    )
+  }
+}
+
+export default {Suit, FormatBid, Spade, Heart, Diamond, Club}

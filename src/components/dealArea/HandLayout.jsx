@@ -2,6 +2,7 @@ import React from "react"
 
 import HandUI from "./HandUI"
 import TrickUI from "./TrickUI"
+import Auction from "./Auction"
 
 const HandLayout = props => {
   const {height, width, deal, seat, playerNames, activePlayer, currentTrick} = props
@@ -48,6 +49,7 @@ const HandLayout = props => {
         cardHeight={cardHeight}
         cardWidth={cardWidth}
       />
+      <Auction />
     </svg>
   )
 }

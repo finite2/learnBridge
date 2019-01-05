@@ -1,35 +1,36 @@
-import React, {useState} from 'react';
+import React, {useState} from "react"
 
-import CommentsContext from './context/CommentsContext'
+import CommentsContext from "./context/CommentsContext"
 
-import './App.scss';
+import "./App.scss"
 
-import GetHand from './components/GetHand'
-import CommentsArea from './components/commentsArea/CommentsArea'
+import GetHand from "./components/GetHand"
+import CommentsArea from "./components/commentsArea/CommentsArea"
 
-const App = (props) => {
-
+const App = props => {
   const [comments, setComments] = useState([])
-  const addComment = (comment) => setComments(comments.concat(comment))
+  const addComment = comment => setComments(comments.concat(comment))
 
   // handtutorial
   return (
-    <CommentsContext.Provider value={{
+    <CommentsContext.Provider
+      value={{
         comments: comments,
         addComment: addComment,
-    }}>
-    <div className="App">
-      <div className='left'>
-        <GetHand playerNames={['Parner', "Opponent", "You", "Opponent"]} target={'/static/Deals/templating/handtoplay.json'}/>
+      }}>
+      <div className="App">
+        <div className="left">
+          <GetHand
+            playerNames={["Parner", "Opponent", "You", "Opponent"]}
+            target={"/static/Deals/templating/handtutorial.json"}
+          />
+        </div>
+        <div className="right">
+          <CommentsArea />
+        </div>
       </div>
-      <div className='right'>
-        <CommentsArea/>
-      </div>
-
-    </div>
-  </CommentsContext.Provider>
-
+    </CommentsContext.Provider>
   )
 }
 
-export default App;
+export default App
