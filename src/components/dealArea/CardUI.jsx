@@ -1,6 +1,5 @@
 import React, {useContext} from "react"
 
-import urlRoutes from "../../urlRoutes"
 import HandContext from "../../context/HandContext"
 import Suit from "../../cards/Suits"
 import CardBack from "../../cards/CardBack"

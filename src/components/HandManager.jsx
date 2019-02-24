@@ -30,13 +30,13 @@ class HandManager extends React.Component {
     this.state = {
       deal: props.hands,
       playerNames: props.playerNames,
-      auction: [],
+      auction: ["", ""],
       yourSeat: 2,
       contract: "2s",
       trumps: "s",
       declarer: 3,
 
-      playerAction: "card",
+      playerAction: "bid",
       activePlayer: 2,
       trickLeader: 2,
       currentTrick: {leader: 2, cards: []},
@@ -53,8 +53,50 @@ class HandManager extends React.Component {
   }
 
   onBid(bid, hand) {
-    if (this.isTurn(hand) && this.state.playerAction === "bid") {
+    var auction = this.state.auction
+
+    let prettyBid = prettifyBid(bid)
+
+    this.context.addComment({comment: prettyBid, className: "left"})
+
+    //if (this.isTurn(hand) && this.state.playerAction === "bid") {
+    auction.push(bid)
+    let strAuction = auction.join("")
+    let contract = ""
+    let trumps = ""
+    let declarer = -1
+    if (auction.length > 3 && strAuction.endsWith("PPP")) {
+      console.log("auction ended")
+      let lastBid = auction[auction.length - 4]
+      if (lastBid === "P") {
+        contract = "P"
+        console.log("Passout auction ended")
+      } else if (lastBid === "X" || lastBid === "XX") {
+        contract = auction.filter(x => x !== "X" && x !== "XX" && x !== "P")[0]
+        declarer = auction.findIndex(x => x == contract) % 4
+        contract += lastBid
+        trumps = contract[1].toLowerCase()
+      } else {
+        contract = lastBid
+        declarer = auction.findIndex(x => x == contract) % 4
+        trumps = contract[1].toLowerCase()
+      }
+      this.setState({
+        auction: auction,
+        contract: contract,
+        trumps: trumps,
+        declarer: declarer,
+        activePlayer: declarer + 1,
+        trickLeader: declarer + 1,
+        playerAction: "card",
+      })
+    } else {
+      this.setState({
+        auction: auction,
+        // activePlayer: auction.length % 4,
+      })
     }
+    //}
     console.log(bid, hand)
   }
 
@@ -86,6 +128,7 @@ class HandManager extends React.Component {
   }
 
   onCardClick(card, hand) {
+    this.context.addComment({comment: "This is a great test !c!d!h!s 2!c", className: "left"})
     console.log(this.state.cardsPlayed)
     console.log(hand)
     if (this.state.playerAction === "card" && this.isTurn(hand) && this.isLegalCard(card, hand)) {
@@ -144,7 +187,16 @@ class HandManager extends React.Component {
   }
 
   render() {
-    const {playerNames, yourSeat, currentState, activePlayer, currentTrick, lastTrick} = this.state
+    const {
+      playerNames,
+      yourSeat,
+      currentState,
+      activePlayer,
+      playerAction,
+      auction,
+      currentTrick,
+      lastTrick,
+    } = this.state
 
     return (
       <HandContext.Provider
@@ -157,6 +209,9 @@ class HandManager extends React.Component {
           deal={currentState}
           playerNames={playerNames}
           activePlayer={activePlayer}
+          yourSeat={yourSeat}
+          playerAction={playerAction}
+          auction={auction}
           currentTrick={currentTrick}
         />
       </HandContext.Provider>
@@ -165,7 +220,7 @@ class HandManager extends React.Component {
 }
 
 const checkWinner = (trump, suit, trick) => {
-  if (trump === "nt") {
+  if (trump === "n") {
     return checkNTWinner(suit, trick)
   } else {
     return checkTrumpWinner(trump, suit, trick)
@@ -204,6 +259,15 @@ const currentTrickPlayed = (cardsPlayed, leader) => {
   const index = Math.floor((cardsPlayed.length - 1) / 4)
   const trick = cardsPlayed.slice(index * 4)
   return {leader: leader, cards: trick}
+}
+
+const prettifyBid = bid => {
+  if (bid === "X" || bid === "P" || bid == "XX") {
+    return bid
+  } else if (bid[1] === "N") {
+    return bid
+  }
+  return bid[0] + "!" + bid[1]
 }
 
 export default HandManager

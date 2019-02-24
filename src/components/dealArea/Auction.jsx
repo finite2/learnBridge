@@ -3,12 +3,14 @@ import React from "react"
 import Suits from "../../cards/Suits"
 
 const Auction = props => {
+  const {auction} = props
+  console.log("test")
+  console.log(auction)
   let height = 200
   let width = 80
   let rowHeight = 22
 
   let offset = 0
-  let bids = ["1C", "1S", "PASS", "PASS", "3C", "PASS", "PASS", "PASS"]
 
   const header = ["N", "E", "S", "W"].map((h, i) => (
     <text
@@ -22,7 +24,7 @@ const Auction = props => {
     </text>
   ))
 
-  const bidUI = bids.map((b, i) => {
+  const bidUI = auction.map((b, i) => {
     let y = rowHeight * (1.5 + Math.floor((offset + i) / 4))
     let x = width * (0.5 + ((offset + i) % 4))
 
@@ -45,4 +47,4 @@ const Auction = props => {
   )
 }
 
-export default React.memo(Auction)
+export default Auction
