@@ -1,0 +1,105 @@
+{
+  "entry": 0,
+  "bids": [
+    {
+      "index": 0,
+      "bid": "1c",
+      "description": "11-19 2+\\c",
+      "follow-up": []
+    },
+    {
+      "index": 1,
+      "bid": "1d",
+      "description": "11-19 4+\\d",
+      "follow-up": []
+    },
+    {
+      "index": 2,
+      "bid": "1h",
+      "description": "11-19 5+\\h",
+      "follow-up": []
+    },
+    {
+      "index": 3,
+      "bid": "1s",
+      "description": "11-19 5+\\s",
+      "follow-up": []
+    },
+    {
+      "index": 4,
+      "bid": "1nt",
+      "description": "15-17 balanced",
+      "follow-up": [
+        {
+          "system": "stayman"
+        },
+        {
+          "system": "heart transfer"
+        },
+        {
+          "system": "spade transfer"
+        },
+        {
+          "system": "club transfer"
+        },
+        {
+          "system": "dimond transfer"
+        }
+      ]
+    }
+  ],
+  "systems": {
+    "stayman": {
+      "description": "Asks for majors",
+      "follow-up": [
+        {
+          "description": "No 4 card major"
+        },
+        {
+          "description": "4\\h"
+        },
+        {
+          "description": "4\\s"
+        }
+      ]
+    },
+    "heart transfer": {
+      "description": "Transfer to \\h",
+      "follow-up": [
+        {
+          "description": "completing transfer"
+        }
+      ]
+    },
+    "spade transfer": {
+      "description": "Transfer to \\s",
+      "follow-up": [
+        {
+          "description": "completing transfer"
+        }
+      ]
+    },
+    "club transfer2": {
+      "description": "Transfer to \\c",
+      "follow-up": [
+        {
+          "description": "Maximum 3+\\c"
+        },
+        {
+          "description": "completing transfer"
+        }
+      ]
+    },
+    "dimond transfer2": {
+      "description": "Transfer to \\d",
+      "follow-up": [
+        {
+          "description": "Maximum 3+\\d"
+        },
+        {
+          "description": "completing transfer"
+        }
+      ]
+    }
+  }
+}

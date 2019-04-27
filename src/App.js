@@ -1,23 +1,17 @@
-import React, {useState} from "react"
-
-import CommentsContext from "./context/CommentsContext"
-
 import "./App.scss"
 
-import GetHand from "./components/GetHand"
+import React from "react"
+import {hot} from "react-hot-loader/root"
+
 import CommentsArea from "./components/commentsArea/CommentsArea"
+import CommentsContextProvider from "./context/CommentsContextProvider"
+import GetHand from "./components/GetHand"
+import Header from "./components/menus/Header"
 
 const App = props => {
-  const [comments, setComments] = useState([])
-  const addComment = comment => setComments(comments.concat(comment))
-
   // handtutorial
   return (
-    <CommentsContext.Provider
-      value={{
-        comments: comments,
-        addComment: addComment,
-      }}>
+    <CommentsContextProvider>
       <div className="App">
         <div className="left">
           <GetHand
@@ -26,11 +20,12 @@ const App = props => {
           />
         </div>
         <div className="right">
+          <Header />
           <CommentsArea />
         </div>
       </div>
-    </CommentsContext.Provider>
+    </CommentsContextProvider>
   )
 }
 
-export default App
+export default hot(App)
