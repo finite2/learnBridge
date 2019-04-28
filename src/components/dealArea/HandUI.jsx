@@ -12,6 +12,7 @@ const HandUI = props => {
   const {seat, cards, playerName, handPosition, cardHeight, cardWidth, cardOverlap, active} = props
   const bannerHeight = cardHeight / 4 + 3
   const handWidth = cardOverlap * 12 + cardWidth + 4
+  const rotate = [0, "90 320 170", 0, "270 170 170"][seat]
 
   const cardsUI = cards.map((c, i) => {
     var x = (6.5 - cards.length / 2 + i) * cardOverlap
@@ -34,7 +35,7 @@ const HandUI = props => {
   // console.log(getSuits(cards));
 
   return (
-    <g className="hand" transform={`translate(${handPosition.x},${handPosition.y})`}>
+    <g className="hand" transform={`translate(${handPosition.x},${handPosition.y}) rotate(${rotate})`}>
       {cardsUI}
       <g transform={`translate(-2,${(cardHeight * 3) / 4})`}>
         <rect fill={active ? "#555555" : "black"} width={handWidth} height={bannerHeight} />
