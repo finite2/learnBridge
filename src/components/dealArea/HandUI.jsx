@@ -1,14 +1,14 @@
-import React from "react"
-
-import CardUI from "./CardUI"
-import Card from "../../classes/Card"
-
-import getSuits from "../../utils/getSuits"
-import suits from "../../cards/Suits"
-
 import "./HandUI.css"
 
+import React, {useContext} from "react"
+
+import Card from "../../classes/Card"
+import CardUI from "./CardUI"
+import HandContext from "../../context/HandContext"
+
 const HandUI = props => {
+  const handContext = useContext(HandContext)
+
   const {seat, cards, playerName, handPosition, cardHeight, cardWidth, cardOverlap, active} = props
   const bannerHeight = cardHeight / 4 + 3
   const handWidth = cardOverlap * 12 + cardWidth + 4
@@ -20,7 +20,7 @@ const HandUI = props => {
       <CardUI
         key={i}
         idx={i}
-        seat={seat}
+        callback={card => handContext.onCardClick(card, seat)}
         x={x}
         cardHeight={cardHeight}
         cardWidth={cardWidth}

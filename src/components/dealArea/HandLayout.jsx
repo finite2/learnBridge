@@ -1,9 +1,10 @@
 import React from "react"
 
-import HandUI from "./HandUI"
-import TrickUI from "./TrickUI"
 import Auction from "./Auction"
+import HandUI from "./HandUI"
 import MakeBids from "./MakeBids"
+import TrickUI from "./TrickUI"
+import CardsToPlace from "./CardsToPlace"
 
 const HandLayout = props => {
   const {height, width, deal, seat, playerNames, activePlayer, yourSeat, playerAction, auction, currentTrick} = props
@@ -52,6 +53,7 @@ const HandLayout = props => {
       />
       <Auction auction={auction} />
       {yourSeat === activePlayer && playerAction === "bid" && <MakeBids auction={auction} />}
+      {false ? <CardsToPlace cardWidth={cardWidth} cardHeight={cardHeight} cardOverlap={cardOverlap} /> : null}
     </svg>
   )
 }

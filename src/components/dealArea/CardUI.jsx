@@ -1,19 +1,16 @@
 import React, {useContext} from "react"
 
-import HandContext from "../../context/HandContext"
 import Suit from "../../cards/Suits"
 import CardBack from "../../cards/CardBack"
 
 import "./CardUI.scss"
 
 const CardUI = props => {
-  const handContext = useContext(HandContext)
-
-  const {seat, card, cardHeight, cardWidth, x, y} = props
+  const {callback, card, cardHeight, cardWidth, x, y} = props
 
   if (card.visible) {
     return (
-      <g className="card" transform={`translate(${x},${y})`} onClick={() => handContext.onCardClick(card, seat)}>
+      <g className="card" transform={`translate(${x},${y})`} onClick={() => callback(card)}>
         <rect width={cardWidth} height={cardHeight} className="card__rect" />
         <text className="card__value" x={8} y={28} style={{fontSize: "26px"}}>
           {card.faceValue()}

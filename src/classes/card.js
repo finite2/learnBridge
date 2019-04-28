@@ -27,6 +27,10 @@ class Card {
     return value + "!" + this.suit
   }
 
+  toSuitValue() {
+    return ["s", "h", "c", "d"].findIndex(s => s === this.suit)
+  }
+
   rawValue() {
     if (this.value > 10) {
       return this.value - 10
