@@ -1,20 +1,19 @@
 import React from "react"
 
+import {seats} from "../Constants"
 import Suits from "../../cards/Suits"
 
 const Auction = props => {
   const {auction} = props
-  console.log("test")
-  console.log(auction)
   let height = 200
   let width = 80
   let rowHeight = 22
 
   let offset = 0
 
-  const header = ["N", "E", "S", "W"].map((h, i) => (
+  const header = seats.map((h, i) => (
     <text
-      index={i}
+      key={i}
       x={(i + 0.5) * width}
       y={rowHeight / 2}
       alignmentBaseline="middle"
@@ -29,7 +28,7 @@ const Auction = props => {
     let x = width * (0.5 + ((offset + i) % 4))
 
     return (
-      <g transform={`translate(${x},${y})`}>
+      <g key={i} transform={`translate(${x},${y})`}>
         <Suits.FormatBid bid={b} height={14} />
       </g>
     )

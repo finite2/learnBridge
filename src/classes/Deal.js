@@ -1,16 +1,14 @@
-import Card from './Card'
+import Card from "./Card"
 
 class Deal {
-
-  constructor({type, handNumber, hands, dealer='S', nsvulnerable=false, ewvulnerable=false, results=''}) {
-    this.type = type
-    this.handNumber = handNumber
-    this.hands = hands.map(h => h.map(c => Card.fromString(c)))
-    this.dealer = dealer
-    this.nsvulnerable = nsvulnerable
-    this.ewvulnerable = ewvulnerable
-    this.results = results
-    this.handNumber = handNumber
+  constructor(o = {}) {
+    this.type = o.type || "custom"
+    this.handNumber = o.handNumber || 0
+    this.hands = (o.hands && o.hands.map(h => h.map(c => Card.fromString(c)))) || [[], [], [], []]
+    this.dealer = o.dealer || "s"
+    this.nsvulnerable = o.nsvulnerable || false
+    this.ewvulnerable = o.ewvulnerable || false
+    this.results = o.results || ""
   }
 }
 

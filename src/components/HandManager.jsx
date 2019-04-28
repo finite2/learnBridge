@@ -1,12 +1,10 @@
-import React from "react"
 import PropTypes from "prop-types"
+import React from "react"
 
-import HandLayout from "./dealArea/HandLayout"
-
-import dealRandomHand from "../utils/dealRandomHand"
-
-import HandContext from "../context/HandContext"
+import {actionStates} from "./Constants"
 import CommentsContext from "../context/CommentsContext"
+import HandContext from "../context/HandContext"
+import HandLayout from "./dealArea/HandLayout"
 
 const seats = ["N", "E", "S", "W"]
 
@@ -19,24 +17,30 @@ class HandManager extends React.Component {
 
   constructor(props) {
     super(props)
+    let {hands, playerNames, type} = props
 
     console.log(props)
-    var currentState = Object.assign({}, props.hands)
+    var currentState = Object.assign({}, hands)
 
     currentState[0] = setHandVisibility(currentState[0], false)
     currentState[1] = setHandVisibility(currentState[1], false)
     currentState[3] = setHandVisibility(currentState[3], false)
 
+    let action = actionStates.MAKEBID
+    if ((type = "custom")) {
+      action = actionStates.CUSTOMDEAL
+    }
+
     this.state = {
-      deal: props.hands,
-      playerNames: props.playerNames,
+      deal: hands,
+      playerNames: playerNames,
       auction: ["", ""],
       yourSeat: 2,
       contract: "2s",
       trumps: "s",
       declarer: 3,
 
-      playerAction: "bid",
+      playerAction: action,
       activePlayer: 2,
       trickLeader: 2,
       currentTrick: {leader: 2, cards: []},
@@ -88,7 +92,7 @@ class HandManager extends React.Component {
         declarer: declarer,
         activePlayer: declarer + 1,
         trickLeader: declarer + 1,
-        playerAction: "card",
+        playerAction: actionStates.PLAYCARD,
       })
     } else {
       this.setState({
@@ -127,15 +131,34 @@ class HandManager extends React.Component {
     return true
   }
 
-  onCardClick(card, hand) {
+  onCardClick(card, hand = null) {
     this.context.addComment({comment: "This is a great test !c!d!h!s 2!c", className: "left"})
     console.log(this.state.cardsPlayed)
     console.log(hand)
-    if (this.state.playerAction === "card" && this.isTurn(hand) && this.isLegalCard(card, hand)) {
+    if (this.state.playerAction === actionStates.PLAYCARD && this.isTurn(hand) && this.isLegalCard(card, hand)) {
       this.playCard(card, hand)
     }
     this.context.addComment({comment: card.toPrettyString(), className: "action"})
     console.log(card.toString(), hand)
+  }
+
+  removeCard(card, hand) {
+    let deal = this.state.deal
+    let thisHand = deal[hand]
+    thisHand.splice(thisHand.findIndex(c => c.value === card.value), 0)
+    this.setState({
+      deal: deal,
+    })
+  }
+
+  addCard(card) {
+    let deal = this.state.deal
+    let hand = this.state.activePlayer
+    let thisHand = deal[hand]
+    thisHand.push(card)
+    this.setState({
+      deal: deal,
+    })
   }
 
   playCard(card, hand) {

@@ -1,12 +1,13 @@
-import React, {useMemo} from "react"
+import React, {useMemo, useContext} from "react"
 
 import Card from "../../classes/Card"
 import CardUI from "./CardUI"
+import HandContext from "../../context/HandContext"
 
 const CardsToPlace = props => {
-  const {cardWidth, cardHeight, cardOverlap, callback} = props
+  const {deal, cardsRemaining, cardWidth, cardHeight, cardOverlap, callback} = props
+  const handContext = useContext(HandContext)
 
-  let cardRemaining = new Array(52).fill(true)
   let handWidth = cardOverlap * 12 + cardWidth + 4
 
   const cards = useMemo(() => {
@@ -18,11 +19,12 @@ const CardsToPlace = props => {
   }, [])
 
   const cardsUI = cards.map((c, i) => {
-    if (cardRemaining[i]) {
-      console.log(c.value)
-      let x = cardOverlap * (14 - c.value)
+    if (cardsRemaining[i]) {
+      let x = cardOverlap * c.value
       let y = c.toSuitValue() * 75
-      return <CardUI card={c} callback={callback} cardHeight={cardHeight} cardWidth={cardWidth} x={x} y={y} />
+      return (
+        <CardUI card={c} callback={handContext.onCardClick} cardHeight={cardHeight} cardWidth={cardWidth} x={x} y={y} />
+      )
     } else {
       return null
     }
@@ -32,6 +34,9 @@ const CardsToPlace = props => {
     <g transform={`translate(${300},${200})`}>
       <rect x={0} y={0} width={handWidth + 40} height={cardHeight + 3 * 75 + 40} fill="#68cf89" />
       <g transform={`translate(${20},${20})`}>{cardsUI}</g>
+      {cardsRemaining.reduce((a, b) => a + b) === 0 ? (
+        <rect x={20} y={20} width={50} height={50} fill="#00ff00" />
+      ) : null}
     </g>
   )
 }

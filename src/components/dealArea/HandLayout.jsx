@@ -1,10 +1,11 @@
 import React from "react"
 
+import {seats, actionStates} from "../Constants"
 import Auction from "./Auction"
+import CardsToPlace from "./CardsToPlace"
 import HandUI from "./HandUI"
 import MakeBids from "./MakeBids"
 import TrickUI from "./TrickUI"
-import CardsToPlace from "./CardsToPlace"
 
 const HandLayout = props => {
   const {height, width, deal, seat, playerNames, activePlayer, yourSeat, playerAction, auction, currentTrick} = props
@@ -15,7 +16,6 @@ const HandLayout = props => {
   const cardOverlap = 33
   const handWidth = cardOverlap * 12 + cardWidth
 
-  const seats = ["N", "E", "S", "W"]
   const seatIndex = seats.findIndex(s => s === seat)
 
   const handPosition = [
@@ -53,7 +53,15 @@ const HandLayout = props => {
       />
       <Auction auction={auction} />
       {yourSeat === activePlayer && playerAction === "bid" && <MakeBids auction={auction} />}
-      {false ? <CardsToPlace cardWidth={cardWidth} cardHeight={cardHeight} cardOverlap={cardOverlap} /> : null}
+      {playerAction === actionStates.CUSTOMDEAL ? (
+        <CardsToPlace
+          cardsRemaining={props.cardsRemaining}
+          deal={deal}
+          cardWidth={cardWidth}
+          cardHeight={cardHeight}
+          cardOverlap={cardOverlap}
+        />
+      ) : null}
     </svg>
   )
 }
