@@ -1,20 +1,19 @@
-import React from "react"
+import React, {useContext} from "react"
 
 import {seats, actionStates} from "../Constants"
 import Auction from "./Auction"
 import CardsToPlace from "./CardsToPlace"
+import HandLayoutContext from "./HandLayoutContext"
 import HandUI from "./HandUI"
 import MakeBids from "./MakeBids"
 import TrickUI from "./TrickUI"
 
 const HandLayout = props => {
-  const {height, width, deal, seat, playerNames, activePlayer, yourSeat, playerAction, auction, currentTrick} = props
+  const {deal, seat, playerNames, activePlayer, yourSeat, playerAction, auction, currentTrick} = props
 
-  const gutter = 20
-  const cardHeight = 150
-  const cardWidth = 100
-  const cardOverlap = 33
-  const handWidth = cardOverlap * 12 + cardWidth
+  const {height, width, gutter, cardHeight, cardWidth, cardOverlap, handWidth} = useContext(HandLayoutContext)
+
+  console.log(height)
 
   const seatIndex = seats.findIndex(s => s === seat)
 
@@ -43,7 +42,7 @@ const HandLayout = props => {
   })
 
   return (
-    <svg style={{width: props.width, height: props.height}}>
+    <svg style={{width: width, height: height}}>
       {hands}
       <TrickUI
         trick={currentTrick}
@@ -64,15 +63,6 @@ const HandLayout = props => {
       ) : null}
     </svg>
   )
-}
-
-HandLayout.defaultProps = {
-  width: 1300,
-  height: 900,
-  north: [],
-  east: [],
-  south: [],
-  west: [],
 }
 
 export default HandLayout

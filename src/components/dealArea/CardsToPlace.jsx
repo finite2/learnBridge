@@ -23,7 +23,15 @@ const CardsToPlace = props => {
       let x = cardOverlap * c.value
       let y = c.toSuitValue() * 75
       return (
-        <CardUI card={c} callback={handContext.onCardClick} cardHeight={cardHeight} cardWidth={cardWidth} x={x} y={y} />
+        <CardUI
+          key={i}
+          card={c}
+          callback={handContext.onCardClick}
+          cardHeight={cardHeight}
+          cardWidth={cardWidth}
+          x={x}
+          y={y}
+        />
       )
     } else {
       return null

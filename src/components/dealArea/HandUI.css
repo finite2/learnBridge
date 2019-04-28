@@ -1,3 +1,4 @@
 .hand {
   display: inline-flex;
+  cursor: pointer;
 }

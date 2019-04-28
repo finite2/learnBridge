@@ -5,6 +5,7 @@ import {actionStates} from "./Constants"
 import CommentsContext from "../context/CommentsContext"
 import HandContext from "../context/HandContext"
 import HandLayout from "./dealArea/HandLayout"
+import HandLayoutProvider from "./dealArea/HandLayoutProvider"
 
 const seats = ["N", "E", "S", "W"]
 
@@ -27,9 +28,6 @@ class HandManager extends React.Component {
     currentState[3] = setHandVisibility(currentState[3], false)
 
     let action = actionStates.MAKEBID
-    if ((type = "custom")) {
-      action = actionStates.CUSTOMDEAL
-    }
 
     this.state = {
       deal: hands,
@@ -227,16 +225,18 @@ class HandManager extends React.Component {
           onBid: this.onBid,
           onCardClick: this.onCardClick,
         }}>
-        <HandLayout
-          seat={yourSeat}
-          deal={currentState}
-          playerNames={playerNames}
-          activePlayer={activePlayer}
-          yourSeat={yourSeat}
-          playerAction={playerAction}
-          auction={auction}
-          currentTrick={currentTrick}
-        />
+        <HandLayoutProvider>
+          <HandLayout
+            seat={yourSeat}
+            deal={currentState}
+            playerNames={playerNames}
+            activePlayer={activePlayer}
+            yourSeat={yourSeat}
+            playerAction={playerAction}
+            auction={auction}
+            currentTrick={currentTrick}
+          />
+        </HandLayoutProvider>
       </HandContext.Provider>
     )
   }

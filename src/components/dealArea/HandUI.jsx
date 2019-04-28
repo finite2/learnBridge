@@ -37,7 +37,7 @@ const HandUI = props => {
   return (
     <g className="hand" transform={`translate(${handPosition.x},${handPosition.y}) rotate(${rotate})`}>
       {cardsUI}
-      <g transform={`translate(-2,${(cardHeight * 3) / 4})`}>
+      <g transform={`translate(-2,${(cardHeight * 3) / 4})`} onClick={() => handContext.onHandClick(seat)}>
         <rect fill={active ? "#555555" : "black"} width={handWidth} height={bannerHeight} />
         <rect
           fill="green"
