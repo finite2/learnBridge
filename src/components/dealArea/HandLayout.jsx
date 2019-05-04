@@ -3,13 +3,15 @@ import React, {useContext} from "react"
 import {seats, actionStates} from "../Constants"
 import Auction from "./Auction"
 import CardsToPlace from "./CardsToPlace"
+import HandContext from "../../context/HandContext"
 import HandLayoutContext from "./HandLayoutContext"
 import HandUI from "./HandUI"
 import MakeBids from "./MakeBids"
 import TrickUI from "./TrickUI"
+import Vulnerability from "./Vulnerability"
 
 const HandLayout = props => {
-  const {deal, seat, playerNames, activePlayer, yourSeat, playerAction, auction, currentTrick} = props
+  const {deal, seat, playerNames, activePlayer, playerAction, auction, currentTrick} = useContext(HandContext)
 
   const {height, width, gutter, cardHeight, cardWidth, cardOverlap, handWidth} = useContext(HandLayoutContext)
 
@@ -50,16 +52,11 @@ const HandLayout = props => {
         cardHeight={cardHeight}
         cardWidth={cardWidth}
       />
-      <Auction auction={auction} />
-      {yourSeat === activePlayer && playerAction === "bid" && <MakeBids auction={auction} />}
+      <Vulnerability />
+      {auction ? <Auction /> : null}
+      {auction && seat === activePlayer && playerAction === "bid" && <MakeBids />}
       {playerAction === actionStates.CUSTOMDEAL ? (
-        <CardsToPlace
-          cardsRemaining={props.cardsRemaining}
-          deal={deal}
-          cardWidth={cardWidth}
-          cardHeight={cardHeight}
-          cardOverlap={cardOverlap}
-        />
+        <CardsToPlace cardWidth={cardWidth} cardHeight={cardHeight} cardOverlap={cardOverlap} />
       ) : null}
     </svg>
   )

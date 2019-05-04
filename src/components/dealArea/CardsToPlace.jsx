@@ -5,8 +5,8 @@ import CardUI from "./CardUI"
 import HandContext from "../../context/HandContext"
 
 const CardsToPlace = props => {
-  const {deal, cardsRemaining, cardWidth, cardHeight, cardOverlap, callback} = props
-  const handContext = useContext(HandContext)
+  const {cardWidth, cardHeight, cardOverlap} = props
+  const {cardsRemaining, onCardClick} = useContext(HandContext)
 
   let handWidth = cardOverlap * 12 + cardWidth + 4
 
@@ -23,15 +23,7 @@ const CardsToPlace = props => {
       let x = cardOverlap * c.value
       let y = c.toSuitValue() * 75
       return (
-        <CardUI
-          key={i}
-          card={c}
-          callback={handContext.onCardClick}
-          cardHeight={cardHeight}
-          cardWidth={cardWidth}
-          x={x}
-          y={y}
-        />
+        <CardUI key={i} card={c} callback={onCardClick} cardHeight={cardHeight} cardWidth={cardWidth} x={x} y={y} />
       )
     } else {
       return null

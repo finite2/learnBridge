@@ -45,6 +45,7 @@ class HandManager extends React.Component {
       lastTrick: {leader: 2, cards: []},
       currentState: currentState,
       tricksWonDeclarer: 0,
+      tricksPlayed: 0,
       cardsPlayed: [],
     }
 
@@ -186,6 +187,7 @@ class HandManager extends React.Component {
       if (trickWinner === declarer || trickWinner + (2 % 4) === declarer) {
         tricksWonDeclarer++
       }
+      tricksPlayed++
       activePlayer = trickWinner
       lastTrick = currentTrick
       trickLeader = trickWinner
@@ -203,11 +205,14 @@ class HandManager extends React.Component {
       lastTrick: lastTrick,
       currentState: currentState,
       tricksWonDeclarer: tricksWonDeclarer,
+      tricksPlayed: tricksPlayed,
       cardsPlayed: cardsPlayed,
     })
   }
 
   render() {
+    const {nsvulnerable, ewvulnerable, dealer} = this.props
+
     const {
       playerNames,
       yourSeat,
@@ -217,6 +222,10 @@ class HandManager extends React.Component {
       auction,
       currentTrick,
       lastTrick,
+      tricksWonDeclarer,
+      tricksPlayed,
+      contract,
+      declarer,
     } = this.state
 
     return (
@@ -224,18 +233,25 @@ class HandManager extends React.Component {
         value={{
           onBid: this.onBid,
           onCardClick: this.onCardClick,
+          onHandClick: () => null,
+          toggleVulnerability: () => null,
+          seat: yourSeat,
+          deal: currentState,
+          playerNames: playerNames,
+          activePlayer: activePlayer,
+          playerAction: playerAction,
+          auction: auction,
+          currentTrick: currentTrick,
+          nsvulnerable: nsvulnerable,
+          ewvulnerable: ewvulnerable,
+          tricksPlayed: tricksPlayed,
+          tricksWonDeclarer: tricksWonDeclarer,
+          contract: contract,
+          declarer: declarer,
+          dealer: dealer,
         }}>
         <HandLayoutProvider>
-          <HandLayout
-            seat={yourSeat}
-            deal={currentState}
-            playerNames={playerNames}
-            activePlayer={activePlayer}
-            yourSeat={yourSeat}
-            playerAction={playerAction}
-            auction={auction}
-            currentTrick={currentTrick}
-          />
+          <HandLayout />
         </HandLayoutProvider>
       </HandContext.Provider>
     )

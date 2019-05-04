@@ -64,4 +64,5 @@ const specialStringToComponent = (special, height = 12) => {
   }
 }
 
+export {formatComment}
 export default React.memo(Comment)

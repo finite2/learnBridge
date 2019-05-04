@@ -75,8 +75,8 @@ const getPermittedDouble = (minBid, auction) => {
 }
 
 const MakeBids = props => {
-  const {yourSeat, auction} = props
-  const handContext = useContext(HandContext)
+  const {yourSeat} = props
+  const {auction, onBid} = useContext(HandContext)
 
   let width = 65
   let height = 36
@@ -99,7 +99,7 @@ const MakeBids = props => {
           fill={minBid < i ? "#9ad7f3" : "#505050"}
           stroke="grey"
           strokeWidth={2}
-          onClick={() => handContext.onBid(b, yourSeat)}
+          onClick={() => onBid(b, yourSeat)}
         />
         <Suits.FormatBid bid={b} height={14} />
       </g>
@@ -116,7 +116,7 @@ const MakeBids = props => {
         stroke="grey"
         strokeWidth={2}
         fill={permittedDouble === 1 ? "red" : "#4444FF"}
-        onClick={() => handContext.onBid(permittedDouble === 1 ? "X" : "XX", yourSeat)}
+        onClick={() => onBid(permittedDouble === 1 ? "X" : "XX", yourSeat)}
       />
       <Suits.FormatBid bid={permittedDouble === 1 ? "DOUBLE" : "REDOUBLE"} height={14} />
     </g>
@@ -132,7 +132,7 @@ const MakeBids = props => {
         fill="green"
         stroke="grey"
         strokeWidth={2}
-        onClick={() => handContext.onBid("P", yourSeat)}
+        onClick={() => onBid("P", yourSeat)}
       />
       <Suits.FormatBid bid={"P"} height={14} />
     </g>

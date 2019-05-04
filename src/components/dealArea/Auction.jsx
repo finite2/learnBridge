@@ -1,10 +1,11 @@
-import React from "react"
+import React, {useContext} from "react"
 
 import {seats} from "../Constants"
+import HandContext from "../../context/HandContext"
 import Suits from "../../cards/Suits"
 
 const Auction = props => {
-  const {auction} = props
+  const {auction} = useContext(HandContext)
   let height = 200
   let width = 80
   let rowHeight = 22
